@@ -14,12 +14,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   async execute(command: CreateUserCommand): Promise<void> {
     const hashedPassword = await bcrypt.hash(command.password, 10);
 
-    const user = new User(
-      command.userId,
-      command.name,
-      command.email,
-      hashedPassword,
-    );
+    const user = new User(command.name, command.email, hashedPassword);
 
     await this.userRepository.save(user);
   }
