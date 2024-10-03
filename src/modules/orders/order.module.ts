@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { OrderController } from './presentation/controllers/order.controller';
 import { OrderApplicationService } from './application/services/order-application.service';
-import { OrderRepositoryImpl } from './infrastructure/persistence/order-repository.imp';
+import { OrderRepositoryImpl } from './infrastructure/persistence/order-repository.impl';
 import { CqrsModule } from '@nestjs/cqrs';
 import { CreateOrderHandler } from './application/commands/create-order.handler';
 import { GetOrderDetailsHandler } from './application/queries/get-order-details.handler';
@@ -21,6 +21,7 @@ export const QueryHandlers = [GetOrderDetailsHandler];
       useClass: OrderRepositoryImpl,
     },
     ...CommandHandlers,
+    ...EventHandlers,
     ...QueryHandlers,
   ],
 })

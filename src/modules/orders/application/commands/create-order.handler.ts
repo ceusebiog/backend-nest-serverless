@@ -3,10 +3,12 @@ import { CreateOrderCommand } from './create-order.command';
 import { OrderRepository } from '../../domain/repositories/order-repository.interface';
 import { Order } from '../../domain/entities/order.entity';
 import { OrderCreatedEvent } from '../../domain/events/order-created.event';
+import { Inject } from '@nestjs/common';
 
 @CommandHandler(CreateOrderCommand)
 export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
   constructor(
+    @Inject('OrderRepository')
     private readonly orderRepository: OrderRepository,
     private readonly eventBus: EventBus,
   ) {}

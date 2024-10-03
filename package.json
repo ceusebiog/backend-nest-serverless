@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build --webpack",
+    "start": "nest start --webpack",
     "deploy": "nest build --webpack && serverless deploy",
     "test": "jest",
     "test:cov": "jest --coverage"
