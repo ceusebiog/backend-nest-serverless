@@ -9,12 +9,16 @@ import {
   QueryCommand,
 } from '@aws-sdk/lib-dynamodb';
 
-const client = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(client);
-
 @Injectable()
 export class OrderRepositoryImpl implements OrderRepository {
-  private readonly tableName = process.env.DYNAMODB_TABLE || 'OrdersTable';
+  private readonly dynamoDbClient: DynamoDBClient;
+  private readonly dynamoDocClient: DynamoDBDocumentClient;
+  private readonly tableName = process.env.ORDERS_TABLE;
+
+  constructor() {
+    this.dynamoDbClient = new DynamoDBClient({});
+    this.dynamoDocClient = DynamoDBDocumentClient.from(this.dynamoDbClient);
+  }
 
   async save(order: Order): Promise<void> {
     const command: PutCommand = new PutCommand({
@@ -28,7 +32,7 @@ export class OrderRepositoryImpl implements OrderRepository {
       },
     });
 
-    await docClient.send(command);
+    await this.dynamoDocClient.send(command);
   }
 
   async findById(orderId: string): Promise<Order | null> {
@@ -37,7 +41,7 @@ export class OrderRepositoryImpl implements OrderRepository {
       Key: { orderId },
     });
 
-    const result = await docClient.send(command);
+    const result = await this.dynamoDocClient.send(command);
 
     if (result.Item) {
       const { userId, productId, quantity, status } = result.Item;
@@ -57,7 +61,7 @@ export class OrderRepositoryImpl implements OrderRepository {
       ExpressionAttributeValues: { ':userId': userId },
     });
 
-    const result = await docClient.send(command);
+    const result = await this.dynamoDocClient.send(command);
 
     return result.Items.map(
       (item) =>
