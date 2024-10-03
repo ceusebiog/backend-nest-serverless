@@ -21,6 +21,7 @@
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/platform-express": "^10.0.0",
     "aws-lambda": "^1.0.7",
+    "bcrypt": "^5.1.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
