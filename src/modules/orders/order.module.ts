@@ -2,9 +2,24 @@ import { Module } from '@nestjs/common';
 import { OrderController } from './presentation/controllers/order.controller';
 import { OrderApplicationService } from './application/services/order-application.service';
 import { OrderRepositoryImpl } from './infrastructure/persistence/order-repository.imp';
+import { CqrsModule } from '@nestjs/cqrs';
+import { CreateOrderHandler } from './application/commands/create-order.handler';
+import { GetOrderDetailsHandler } from './application/queries/get-order-details.handler';
+
+export const CommandHandlers = [CreateOrderHandler];
+export const QueryHandlers = [GetOrderDetailsHandler];
 
 @Module({
+  imports: [CqrsModule],
   controllers: [OrderController],
-  providers: [OrderApplicationService, OrderRepositoryImpl],
+  providers: [
+    OrderApplicationService,
+    {
+      provide: 'OrderRepository',
+      useClass: OrderRepositoryImpl,
+    },
+    ...CommandHandlers,
+    ...QueryHandlers,
+  ],
 })
 export class OrderModule {}

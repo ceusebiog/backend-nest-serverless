@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { Order } from '../../domain/entities/order.entity';
-import { OrderRepositoryImpl } from '../../infrastructure/persistence/order-repository.imp';
 import { CreateOrderCommand } from '../commands/create-order.command';
 import { GetOrderDetailsQuery } from '../queries/get-order-details.query';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 @Injectable()
 export class OrderApplicationService {
-  constructor(private readonly orderRepository: OrderRepositoryImpl) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
+  ) {}
 
-  async createOrder(command: CreateOrderCommand): Promise<Order> {
-    const newOrder = new Order(
-      command.userId,
-      command.productId,
-      command.quantity,
-    );
+  async createOrder(
+    userId: string,
+    productId: string,
+    quantity: number,
+  ): Promise<void> {
+    const command = new CreateOrderCommand(userId, productId, quantity);
 
-    await this.orderRepository.save(newOrder);
-
-    return newOrder;
+    await this.commandBus.execute(command);
   }
 
-  async getOrderDetails(query: GetOrderDetailsQuery): Promise<Order | null> {
-    return await this.orderRepository.findById(query.orderId);
+  async getOrderDetails(orderId: string): Promise<Order | null> {
+    const query = new GetOrderDetailsQuery(orderId);
+
+    return await this.queryBus.execute(query);
   }
 }
