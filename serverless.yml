@@ -6,6 +6,23 @@ plugins:
 provider:
   name: aws
   runtime: nodejs20.x
+  region: us-east-1
+  stage: dev
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    ORDERS_TABLE: OrdersTable
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDERS_TABLE}
+
+package:
+  patterns:
+    - '!node_modules/**'
 
 functions:
   main:
@@ -13,11 +30,25 @@ functions:
     events:
       - http:
           method: ANY
-          path: /
+          path: '/{proxy+}'
       - http:
           method: ANY
-          path: '{proxy+}'
+          path: '/'
 
 custom:
   serverless-offline:
     noPrependStageInUrl: true
+
+resources:
+  Resources:
+    DynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.ORDERS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: orderId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: orderId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
