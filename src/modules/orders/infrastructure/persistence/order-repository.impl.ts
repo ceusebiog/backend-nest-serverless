@@ -6,6 +6,7 @@ import {
   DynamoDBDocumentClient,
   GetCommand,
   PutCommand,
+  QueryCommand,
 } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({});
@@ -31,12 +32,12 @@ export class OrderRepositoryImpl implements OrderRepository {
   }
 
   async findById(orderId: string): Promise<Order | null> {
-    const comand: GetCommand = new GetCommand({
+    const command: GetCommand = new GetCommand({
       TableName: this.tableName,
       Key: { orderId },
     });
 
-    const result = await docClient.send(comand);
+    const result = await docClient.send(command);
 
     if (result.Item) {
       const { userId, productId, quantity, status } = result.Item;
@@ -46,5 +47,27 @@ export class OrderRepositoryImpl implements OrderRepository {
     }
 
     return null;
+  }
+
+  async findByUserId(userId: string): Promise<Order[]> {
+    const command: QueryCommand = new QueryCommand({
+      TableName: this.tableName,
+      IndexName: 'UserIdIndex',
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: { ':userId': userId },
+    });
+
+    const result = await docClient.send(command);
+
+    return result.Items.map(
+      (item) =>
+        new Order(
+          item.userId,
+          item.productId,
+          item.quantity,
+          item.orderId,
+          item.status,
+        ),
+    );
   }
 }

@@ -21,4 +21,9 @@ export class OrderController {
   async getOrderDetails(@Param('orderId') orderId: string) {
     return await this.orderApplicationService.getOrderDetails(orderId);
   }
+
+  @Get('/user/:userId')
+  async getOrderByUser(@Param('userId') userId: string) {
+    return await this.orderApplicationService.getOrderByUser(userId);
+  }
 }
