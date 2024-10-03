@@ -1,17 +1,19 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoginUserCommand } from './login-user.command';
 import { BadRequestException, Inject, NotFoundException } from '@nestjs/common';
-import { UserRepository } from '../../domain/repositories/user-repository.interface';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
+import { AuthRepository } from '../../domain/repositories/auth-repository.interface';
+import { JwtService } from '@nestjs/jwt';
 
 @CommandHandler(LoginUserCommand)
 export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
   constructor(
-    @Inject('UserRepository') private readonly userRepository: UserRepository,
+    @Inject('AuthRepository') private readonly authRepository: AuthRepository,
+    private jwtService: JwtService,
   ) {}
 
   async execute(command: LoginUserCommand): Promise<any> {
-    const user = await this.userRepository.findByEmail(command.email);
+    const user = await this.authRepository.findByEmail(command.email);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -26,6 +28,10 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
       throw new BadRequestException('Invalid password');
     }
 
-    return 'JWT';
+    const payload = { sub: user.userId };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }

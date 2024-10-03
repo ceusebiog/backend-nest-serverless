@@ -54,22 +54,6 @@ export class UserRepositoryImpl implements UserRepository {
     );
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    const command = new QueryCommand({
-      TableName: this.tableName,
-      FilterExpression: 'email = :email',
-      ExpressionAttributeValues: { ':email': email },
-    });
-    const result = await this.dynamoDocClient.send(command);
-
-    if (result.Items?.length === 0) {
-      return null;
-    }
-
-    const item = result.Items[0];
-    return new User(item.userId, item.name, item.email, item.password);
-  }
-
   async deleteById(userId: string): Promise<void> {
     const command = new DeleteCommand({
       TableName: this.tableName,
