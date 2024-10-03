@@ -11,7 +11,7 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 
 @Injectable()
-export class DynamoUserRepository implements UserRepository {
+export class UserRepositoryImpl implements UserRepository {
   private readonly dynamoDbClient: DynamoDBClient;
   private readonly dynamoDocClient: DynamoDBDocumentClient;
   private readonly tableName = process.env.USERS_TABLE;
