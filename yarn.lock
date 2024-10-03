@@ -92,6 +92,56 @@
     "@smithy/util-utf8" "^2.0.0"
     tslib "^2.6.2"
 
+"@aws-sdk/client-dynamodb@^3.662.0":
+  version "3.662.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-dynamodb/-/client-dynamodb-3.662.0.tgz#462c8155eb2cc38f894a87c4f06d2371d4bf6b1b"
+  integrity sha512-d5t6hDQkVYqRvp6Cf6WygbseY8gln7Ca/tI4+1B6JXSl2UzffX5ovx2SOjNEPlyGGtZYIiOfqOnKnFlaj0+Gxg==
+  dependencies:
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "5.2.0"
+    "@aws-sdk/client-sso-oidc" "3.662.0"
+    "@aws-sdk/client-sts" "3.662.0"
+    "@aws-sdk/core" "3.662.0"
+    "@aws-sdk/credential-provider-node" "3.662.0"
+    "@aws-sdk/middleware-endpoint-discovery" "3.662.0"
+    "@aws-sdk/middleware-host-header" "3.662.0"
+    "@aws-sdk/middleware-logger" "3.662.0"
+    "@aws-sdk/middleware-recursion-detection" "3.662.0"
+    "@aws-sdk/middleware-user-agent" "3.662.0"
+    "@aws-sdk/region-config-resolver" "3.662.0"
+    "@aws-sdk/types" "3.662.0"
+    "@aws-sdk/util-endpoints" "3.662.0"
+    "@aws-sdk/util-user-agent-browser" "3.662.0"
+    "@aws-sdk/util-user-agent-node" "3.662.0"
+    "@smithy/config-resolver" "^3.0.9"
+    "@smithy/core" "^2.4.7"
+    "@smithy/fetch-http-handler" "^3.2.9"
+    "@smithy/hash-node" "^3.0.7"
+    "@smithy/invalid-dependency" "^3.0.7"
+    "@smithy/middleware-content-length" "^3.0.9"
+    "@smithy/middleware-endpoint" "^3.1.4"
+    "@smithy/middleware-retry" "^3.0.22"
+    "@smithy/middleware-serde" "^3.0.7"
+    "@smithy/middleware-stack" "^3.0.7"
+    "@smithy/node-config-provider" "^3.1.8"
+    "@smithy/node-http-handler" "^3.2.4"
+    "@smithy/protocol-http" "^4.1.4"
+    "@smithy/smithy-client" "^3.3.6"
+    "@smithy/types" "^3.5.0"
+    "@smithy/url-parser" "^3.0.7"
+    "@smithy/util-base64" "^3.0.0"
+    "@smithy/util-body-length-browser" "^3.0.0"
+    "@smithy/util-body-length-node" "^3.0.0"
+    "@smithy/util-defaults-mode-browser" "^3.0.22"
+    "@smithy/util-defaults-mode-node" "^3.0.22"
+    "@smithy/util-endpoints" "^2.1.3"
+    "@smithy/util-middleware" "^3.0.7"
+    "@smithy/util-retry" "^3.0.7"
+    "@smithy/util-utf8" "^3.0.0"
+    "@smithy/util-waiter" "^3.1.6"
+    tslib "^2.6.2"
+    uuid "^9.0.1"
+
 "@aws-sdk/client-lambda@^3.636.0":
   version "3.662.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-lambda/-/client-lambda-3.662.0.tgz#1b69cd72323d5b22e011ddc8a75187022e095cbc"
@@ -389,6 +439,37 @@
     "@smithy/types" "^3.5.0"
     tslib "^2.6.2"
 
+"@aws-sdk/endpoint-cache@3.572.0":
+  version "3.572.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/endpoint-cache/-/endpoint-cache-3.572.0.tgz#414970b764db207eba4d93228363d61af33ea03b"
+  integrity sha512-CzuRWMj/xtN9p9eP915nlPmlyniTzke732Ow/M60++gGgB3W+RtZyFftw3TEx+NzNhd1tH54dEcGiWdiNaBz3Q==
+  dependencies:
+    mnemonist "0.38.3"
+    tslib "^2.6.2"
+
+"@aws-sdk/lib-dynamodb@^3.662.0":
+  version "3.662.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-dynamodb/-/lib-dynamodb-3.662.0.tgz#425073c71c284cff3636faf8daa07e692c8b0504"
+  integrity sha512-DCmhc9hccIsMbYl8xINLtxYmsUlSVCUKcDA19Z+7901Jlu8OwzidwMBy4ZK8wAmy6/aG4agH67FY4i0Hee3z9g==
+  dependencies:
+    "@aws-sdk/util-dynamodb" "3.662.0"
+    "@smithy/core" "^2.4.7"
+    "@smithy/smithy-client" "^3.3.6"
+    "@smithy/types" "^3.5.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/middleware-endpoint-discovery@3.662.0":
+  version "3.662.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-endpoint-discovery/-/middleware-endpoint-discovery-3.662.0.tgz#ad1e99eeb5b13282d26f3032822ec41840eaa03c"
+  integrity sha512-os/gBtal8DDOZHUVQNymy8K/8JNC1tPqznsUoEkjoYaQoerT9PR3PPrc/oWTB9h1VLXZOwJ8HcCtsEbXUAddTg==
+  dependencies:
+    "@aws-sdk/endpoint-cache" "3.572.0"
+    "@aws-sdk/types" "3.662.0"
+    "@smithy/node-config-provider" "^3.1.8"
+    "@smithy/protocol-http" "^4.1.4"
+    "@smithy/types" "^3.5.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/middleware-host-header@3.662.0":
   version "3.662.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-host-header/-/middleware-host-header-3.662.0.tgz#f3d647d294b19da17ef5845b87dc5c0788196a1e"
@@ -458,6 +539,13 @@
   integrity sha512-Ff9/KRmIm8iEzodxzISLj4/pB/0hX2nVw1RFeOBC65OuM6nHrAdWHHog/CVx25hS5JPU0uE3h6NlWRaBJ7AV5w==
   dependencies:
     "@smithy/types" "^3.5.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/util-dynamodb@3.662.0":
+  version "3.662.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/util-dynamodb/-/util-dynamodb-3.662.0.tgz#47b1747f14300384af66b6a07fb4ba7a01318194"
+  integrity sha512-V079cMhwUTu086eS1grS/F7WeOrfqAW2a2KSFKR/zxLwZPYIoMiCUeoqCgK0PL5DEqdO0EVDPuWe/glEiO52dw==
+  dependencies:
     tslib "^2.6.2"
 
 "@aws-sdk/util-endpoints@3.662.0":
@@ -2317,6 +2405,11 @@
   dependencies:
     "@types/methods" "^1.1.4"
     "@types/superagent" "^8.1.0"
+
+"@types/uuid@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-10.0.0.tgz#e9c07fe50da0f53dc24970cca94d619ff03f6f6d"
+  integrity sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==
 
 "@types/yargs-parser@*":
   version "21.0.3"
@@ -5243,6 +5336,13 @@ mkdirp@^0.5.4:
   dependencies:
     minimist "^1.2.6"
 
+mnemonist@0.38.3:
+  version "0.38.3"
+  resolved "https://registry.yarnpkg.com/mnemonist/-/mnemonist-0.38.3.tgz#35ec79c1c1f4357cfda2fe264659c2775ccd7d9d"
+  integrity sha512-2K9QYubXx/NAjv4VLq1d1Ly8pWNC5L3BrixtdkyTegXWJIqY+zLNDhhX/A+ZwWt70tB1S8H4BE8FLYEFyNoOBw==
+  dependencies:
+    obliterator "^1.6.1"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -5371,6 +5471,11 @@ object-inspect@^1.13.1:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/object-inspect/-/object-inspect-1.13.2.tgz#dea0088467fb991e67af4058147a24824a3043ff"
   integrity sha512-IRZSRuzJiynemAXPYtPe5BoI/RESNYR7TYm50MC5Mqbd3Jmw5y790sErYw3V6SryFJD64b74qQQs9wn5Bg/k3g==
+
+obliterator@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/obliterator/-/obliterator-1.6.1.tgz#dea03e8ab821f6c4d96a299e17aef6a3af994ef3"
+  integrity sha512-9WXswnqINnnhOG/5SLimUlzuU1hFJUc8zkwyD59Sd+dPOMf05PmnYG/d6Q7HZ+KmgkZJa1PxRso6QdM3sTNHig==
 
 on-finished@2.4.1:
   version "2.4.1"
