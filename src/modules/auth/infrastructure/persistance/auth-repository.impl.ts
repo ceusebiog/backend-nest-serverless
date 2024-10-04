@@ -1,5 +1,9 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  QueryCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { Injectable } from '@nestjs/common';
 import { AuthRepository } from '../../domain/repositories/auth-repository.interface';
 
@@ -32,5 +36,21 @@ export class AuthRepositoryImpl implements AuthRepository {
 
     const item = result.Items[0];
     return { userId: item.userId, password: item.password };
+  }
+
+  async findById(userId: string): Promise<boolean | null> {
+    const command = new GetCommand({
+      TableName: this.tableName,
+      Key: { userId },
+      ProjectionExpression: 'userId',
+    });
+
+    const result = await this.dynamoDocClient.send(command);
+
+    if (result.Item) {
+      return true;
+    }
+
+    return false;
   }
 }
