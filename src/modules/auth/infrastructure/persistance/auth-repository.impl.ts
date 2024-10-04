@@ -19,7 +19,8 @@ export class AuthRepositoryImpl implements AuthRepository {
   ): Promise<{ userId: string; password: string } | null> {
     const command = new QueryCommand({
       TableName: this.tableName,
-      FilterExpression: 'email = :email',
+      IndexName: 'EmailIndex',
+      KeyConditionExpression: 'email = :email',
       ExpressionAttributeValues: { ':email': email },
       ProjectionExpression: 'userId, password',
     });

@@ -11,6 +11,7 @@ provider:
   environment:
     NODE_ENV: ${self:provider.stage}
     ORDERS_TABLE: OrdersTable
+    USERS_TABLE: UsersTable
   iam:
     role:
       statements:
@@ -18,7 +19,10 @@ provider:
           Action:
             - dynamodb:PutItem
             - dynamodb:GetItem
-          Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDERS_TABLE}
+            - dynamodb:Query
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDERS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
 
 package:
   patterns:
@@ -41,7 +45,7 @@ custom:
 
 resources:
   Resources:
-    DynamoDBTable:
+    OrdersTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.ORDERS_TABLE}
@@ -57,6 +61,27 @@ resources:
           - IndexName: UserIdIndex
             KeySchema:
               - AttributeName: userId
+                KeyType: 'HASH'
+            Projection:
+              ProjectionType: 'ALL'
+        BillingMode: PAY_PER_REQUEST
+
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.USERS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: EmailIndex
+            KeySchema:
+              - AttributeName: email
                 KeyType: 'HASH'
             Projection:
               ProjectionType: 'ALL'

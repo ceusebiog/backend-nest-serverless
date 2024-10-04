@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthApplicationService } from '../application/services/auth-application.service';
+import { LoginDto } from '../application/dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -8,11 +9,10 @@ export class AuthController {
   ) {}
 
   @Post()
-  async login(@Body() body: any) {
-    const result = await this.authApplicationService.loginUser(
+  async login(@Body() body: LoginDto) {
+    return await this.authApplicationService.loginUser(
       body.email,
       body.password,
     );
-    return { JWT: result };
   }
 }

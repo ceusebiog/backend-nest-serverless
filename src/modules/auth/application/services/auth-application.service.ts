@@ -9,6 +9,6 @@ export class AuthApplicationService {
   async loginUser(email: string, password: string): Promise<any> {
     const command = new LoginUserCommand(email, password);
 
-    await this.commandBus.execute(command);
+    return await this.commandBus.execute(command);
   }
 }
