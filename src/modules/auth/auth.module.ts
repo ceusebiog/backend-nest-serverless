@@ -8,8 +8,13 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ValidateUserHandler } from './application/commands/validate-user.handler';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { RefreshTokenHandler } from './application/commands/refresh-token.handler';
 
-export const CommandHandlers = [LoginUserHandler, ValidateUserHandler];
+export const CommandHandlers = [
+  LoginUserHandler,
+  ValidateUserHandler,
+  RefreshTokenHandler,
+];
 
 @Module({
   imports: [CqrsModule, PassportModule],

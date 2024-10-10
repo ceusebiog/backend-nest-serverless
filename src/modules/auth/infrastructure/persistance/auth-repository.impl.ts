@@ -3,6 +3,7 @@ import {
   DynamoDBDocumentClient,
   GetCommand,
   QueryCommand,
+  UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { Injectable } from '@nestjs/common';
 import { AuthRepository } from '../../domain/repositories/auth-repository.interface';
@@ -52,5 +53,36 @@ export class AuthRepositoryImpl implements AuthRepository {
     }
 
     return false;
+  }
+
+  async updateRefreshToken(
+    userId: string,
+    refreshToken: string,
+  ): Promise<void> {
+    const command = new UpdateCommand({
+      TableName: this.tableName,
+      Key: { userId },
+      UpdateExpression: 'set refreshToken = :refreshToken',
+      ExpressionAttributeValues: {
+        ':refreshToken': refreshToken,
+      },
+    });
+
+    await this.dynamoDocClient.send(command);
+  }
+
+  async getRefreshToken(userId: string): Promise<string | null> {
+    const command = new GetCommand({
+      TableName: this.tableName,
+      Key: { userId },
+      ProjectionExpression: 'refreshToken',
+    });
+    const result = await this.dynamoDocClient.send(command);
+
+    if (result.Item) {
+      return null;
+    }
+
+    return result.Item.refreshToken;
   }
 }

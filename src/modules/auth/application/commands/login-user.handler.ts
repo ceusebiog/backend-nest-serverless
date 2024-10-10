@@ -28,10 +28,16 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
       throw new BadRequestException('Invalid password');
     }
 
-    const payload = { sub: user.userId };
+    const payload = { sub: user.userId, email: command.email };
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
+
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+
+    await this.authRepository.updateRefreshToken(user.userId, refreshToken);
 
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
   }
 }
