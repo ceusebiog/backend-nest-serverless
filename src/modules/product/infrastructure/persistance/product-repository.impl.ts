@@ -48,7 +48,7 @@ export class ProductRepositoryImpl implements IProductRepository {
         isFirst = false;
       } else updateExpression += ', ';
 
-      updateExpression += `${p} = :{p}`;
+      updateExpression += `${p} = :${p}`;
       expressionAttributeValues[`:${p}`] = params[p];
     }
 
