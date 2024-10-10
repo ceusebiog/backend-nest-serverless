@@ -10,8 +10,9 @@ provider:
   stage: dev
   environment:
     NODE_ENV: ${self:provider.stage}
-    ORDERS_TABLE: OrdersTable
-    USERS_TABLE: UsersTable
+    ORDERS_TABLE: ${self:provider.stage}_Orders
+    USERS_TABLE: ${self:provider.stage}_Users
+    PRODUCTS_TABLE: ${self:provider.stage}_Products
   iam:
     role:
       statements:
@@ -19,10 +20,12 @@ provider:
           Action:
             - dynamodb:PutItem
             - dynamodb:GetItem
+            - dynamodb:UpdateItem
             - dynamodb:Query
           Resource:
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDERS_TABLE}
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PRODUCTS_TABLE}
 
 package:
   patterns:
@@ -65,7 +68,6 @@ resources:
             Projection:
               ProjectionType: 'ALL'
         BillingMode: PAY_PER_REQUEST
-
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -85,4 +87,15 @@ resources:
                 KeyType: 'HASH'
             Projection:
               ProjectionType: 'ALL'
+        BillingMode: PAY_PER_REQUEST
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PRODUCTS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
         BillingMode: PAY_PER_REQUEST

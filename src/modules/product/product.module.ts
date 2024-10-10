@@ -4,8 +4,9 @@ import { ProductApplicationService } from './application/services/product-applic
 import { ProductRepositoryImpl } from './infrastructure/persistance/product-repository.impl';
 import { ProductController } from './presentation/controllers/product.controller';
 import { CreateProductHandler } from './application/commands/create-product.handler';
+import { UpdateProductHandler } from './application/commands/update-product.handler';
 
-export const CommandHandlers = [CreateProductHandler];
+export const CommandHandlers = [CreateProductHandler, UpdateProductHandler];
 
 @Module({
   imports: [CqrsModule],

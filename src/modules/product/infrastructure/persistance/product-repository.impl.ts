@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { IProductRepository } from '../../domain/reporitories/product.repository';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { Product } from '../../domain/entities/product.entity';
 
 @Injectable()
@@ -25,6 +29,34 @@ export class ProductRepositoryImpl implements IProductRepository {
         stock: product.stock,
         description: product.description,
       },
+    });
+
+    await this.dynamoDocClient.send(command);
+  }
+
+  async updateProduct(
+    productId: string,
+    params: Record<string, any>,
+  ): Promise<any> {
+    let updateExpression: string = '';
+    let expressionAttributeValues: Record<string, any> = {};
+    let isFirst: boolean = true;
+
+    for (const p in params) {
+      if (isFirst) {
+        updateExpression = 'set ';
+        isFirst = false;
+      } else updateExpression += ', ';
+
+      updateExpression += `${p} = :{p}`;
+      expressionAttributeValues[`:${p}`] = params[p];
+    }
+
+    const command: UpdateCommand = new UpdateCommand({
+      TableName: this.tableName,
+      Key: { productId },
+      UpdateExpression: updateExpression,
+      ExpressionAttributeValues: expressionAttributeValues,
     });
 
     await this.dynamoDocClient.send(command);
